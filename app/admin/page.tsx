@@ -1,13 +1,10 @@
-'use client';
+"use client"
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { getValidAccessToken } from '@/utils/token';
 
 export default function AdminMenuPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     refreshToken();

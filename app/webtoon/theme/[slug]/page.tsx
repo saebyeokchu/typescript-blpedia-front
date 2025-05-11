@@ -1,5 +1,6 @@
 // app/webtoon/theme/[slug]/page.tsx'
 import Header from '@/components/Header';
+import { fetchAllThemes } from '@/lib/api';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -12,19 +13,15 @@ interface Webtoon {
   is_recommended: boolean;
 }
 
-interface Props {
-  params: { slug: string };
-}
-
 interface ThemeData {
   name: string;
   slug: string;
   webtoons: Webtoon[];
 }
 
-export default async function ThemePage({ params }: Props) {
-
-  const res = await fetch(`http://localhost:8000/api/themes/${params.slug}/`, {
+export default async function ThemePage({ params }: { params : Promise<{ slug: string }> }) {
+  const themes = await fetchAllThemes();
+  const res = await fetch(`http://localhost:8000/api/themes/${(await params).slug}/`, {
     cache: 'no-store',
   });
 
@@ -34,7 +31,7 @@ export default async function ThemePage({ params }: Props) {
 
   return (
     <div className="max-w-md mx-auto px-4 py-8 space-y-6">
-      <Header />
+      <Header themes={themes} />
       <h1 className="text-xl font-bold text-center">🔖 #{data.name}</h1>
       <div className="space-y-4">
         {data.webtoons.map((w) => (

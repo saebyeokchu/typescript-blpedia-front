@@ -1,21 +1,20 @@
 // app/webtoon/[slug]/page.tsx
 import Header from '@/components/Header';
-import { fetchWebtoonDetail } from '@/lib/api';
+import { fetchAllThemes, fetchWebtoonDetail } from '@/lib/api';
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   return {
-    title: `${params.slug} | BLPedia`,
+    title: `${(await params).slug} | BLPedia`,
   };
 }
 
-export default async function WebtoonDetailPage({ params }: { params: { slug: string } }) {
-  const webtoon = await fetchWebtoonDetail(params.slug);
-
-  console.log(webtoon);
+export default async function WebtoonDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const webtoon = await fetchWebtoonDetail((await params).slug);
+  const themes = await fetchAllThemes();
 
   return (
     <>
-    <Header />
+    <Header themes={themes}/>
     <div className="px-4 py-6 space-y-6">
       
       <h1 className="text-2xl font-bold">{webtoon.title}</h1>

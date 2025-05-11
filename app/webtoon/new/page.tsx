@@ -5,7 +5,7 @@ import { getValidAccessToken } from '@/utils/token';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Dialog } from '@headlessui/react';
-import { get } from 'http';
+import { fetchAllThemes } from '@/lib/api';
 
 interface Company {
   id: number;
@@ -15,6 +15,7 @@ interface Company {
 interface Theme {
   id: number;
   name: string;
+  slug: string;
 }
 
 export default function NewWebtoonPage() {
@@ -33,10 +34,18 @@ export default function NewWebtoonPage() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [themes, setThemes] = useState<Theme[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [menuThemes, setMenuThemes] = useState<Theme[]>([]);
+  
 
   useEffect(() => {
     refreshToken();
+    fetchMenuThemes();
   }, []);
+
+  const fetchMenuThemes = async () => {
+    const res = await fetchAllThemes();
+    setMenuThemes(res)
+  }
 
   const refreshToken = async () => {
     const token = await getValidAccessToken();
@@ -113,7 +122,7 @@ export default function NewWebtoonPage() {
 
   return (
     <>
-      <Header />
+      <Header themes={menuThemes}/>
       <div className="max-w-md mx-auto px-4 py-10">
         <h1 className="text-xl font-bold mb-6">새 웹툰 추가</h1>
         <form onSubmit={handleSubmit} className="space-y-4">

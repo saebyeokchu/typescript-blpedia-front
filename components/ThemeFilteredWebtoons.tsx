@@ -62,22 +62,24 @@ export default function ThemeFilteredWebtoons({
       {(activeTheme
         ? [[activeTheme, themeMap[activeTheme] ?? []]]
         : Object.entries(themeMap)
-      ).map(([themeSlug, group]) => {
+      ).map(([themeSlug, group],idx) => {
         const themeName = typeof themeSlug === 'string' ? (themes.find((t) => t.slug === themeSlug)?.name ?? themeSlug) : '';
 
         return (
-          <WebtoonSection
-            title={themeName}
-            webtoons={Array.isArray(group) ? group.map((w) => ({
-              title: w.title,
-              company: w.company.name,
-              keyword: themeName,
-              image_url: w.image_url,
-              slug: w.slug,
-              is_recommended: w.is_recommended,
-              themes: w.themes,
-            })) : []}
-          />
+          <div key={`theme-${idx}`} >
+            <WebtoonSection
+              title={themeName}
+              webtoons={Array.isArray(group) ? group.map((w) => ({
+                title: w.title,
+                company: w.company.name,
+                keyword: themeName,
+                image_url: w.image_url,
+                slug: w.slug,
+                is_recommended: w.is_recommended,
+                themes: w.themes,
+              })) : []}
+            />
+          </div>
         );
       })}
     </>

@@ -1,21 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "blpedia",
   description: "bl추천,집착광공,bl웹툰,bl소설,bl게임,bl커플,bl남자주인공,bl추천,bl검색",
+  icons: {
+        icon: "/favico.png",
+    },
 };
 
 export default function RootLayout({
@@ -25,19 +17,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPV7PWV303"></script>
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-EPV7PWV303', {
-            page_path: window.location.pathname,
-          });
-        `,
-      }}
-    ></script>
+      <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPV7PWV303"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-EPV7PWV303', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        ></script>
+      </head>
       <body className="bg-black text-black flex justify-center">
         <div className="w-full max-w-[430px] min-h-screen border-x border-gray-200">
           {children}
