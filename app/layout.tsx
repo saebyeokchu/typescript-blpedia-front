@@ -25,6 +25,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPV7PWV303"></script>
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-EPV7PWV303', {
+            page_path: window.location.pathname,
+          });
+        `,
+      }}
+    ></script>
       <body className="bg-black text-black flex justify-center">
         <div className="w-full max-w-[430px] min-h-screen border-x border-gray-200">
           {children}
